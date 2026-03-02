@@ -1,0 +1,8 @@
+# Copyright (c) 2024 ZMK Firmware
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_PINNACLE_100
+    bool "Pinnacle 100"
+    help
+      Nordic Semiconductor Pinnacle 100 development board
+      featuring the nRF52840 ARM Cortex-M4F processor.

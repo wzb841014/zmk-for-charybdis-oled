@@ -1,0 +1,13 @@
+identifier: pinnacle_100
+name: Pinnacle 100
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+  - gccarmle
+supported:
+  - gpio
+  - i2c
+  - spi
+  - ble
+  - uart
