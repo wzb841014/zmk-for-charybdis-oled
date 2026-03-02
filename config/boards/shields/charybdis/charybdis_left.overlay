@@ -1,13 +1,5 @@
 /*
  * GC9A01A SPI Display overlay for Pinnacle 100
- * 
- * Wiring (SPI1):
- * - SCK:  P0.19
- * - MOSI: P0.20
- * - MISO: P0.22
- * - DC:   P0.16
- * - RST:  P0.21
- * - CS:   P0.19 (can share with SCK if only one device)
  */
 
 #include "charybdis.dtsi"
@@ -20,19 +12,8 @@
     };
 };
 
-&pinctrl {
-    spi1_default: spi1_default {
-        group1 {
-            psels = <NRF_PSEL(SPI_SCK, 0, 17)>,
-                    <NRF_PSEL(SPI_MOSI, 0, 20)>;
-        };
-    };
-};
-
 &spi1 {
     status = "okay";
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-names = "default";
     
     gc9a01a: gc9a01a@0 {
         compatible = "waveshare,gc9a01a";
