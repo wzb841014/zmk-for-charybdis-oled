@@ -1,0 +1,2 @@
+/* config/boards/arm/pinnacle_100/pinnacle_100.dts */
+#include "pinnacle_100.dtsi"
