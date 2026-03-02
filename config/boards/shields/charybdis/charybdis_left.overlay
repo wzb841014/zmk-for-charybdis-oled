@@ -1,48 +1,47 @@
 /*
- * Copyright (c) 2020 ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
+ * GC9A01A SPI Display overlay for Pinnacle 100
+ * 
+ * Wiring (SPI1):
+ * - SCK:  P0.19
+ * - MOSI: P0.20
+ * - MISO: P0.22
+ * - DC:   P0.16
+ * - RST:  P0.21
+ * - CS:   P0.19 (can share with SCK if only one device)
  */
 
-#include "charybdis_left.dtsi"
-
+#include "charybdis.dtsi"
 
 / {
-	chosen {
-		zephyr,display = &oled;
-	};
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        label = "KSCAN";
+        row-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+    };
 };
 
-// I2C for OLED on nice!nano
-&pro_micro_i2c {
+&pinctrl {
+    spi1_default: spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPI_SCK, 0, 17)>,
+                    <NRF_PSEL(SPI_MOSI, 0, 20)>;
+        };
+    };
+};
+
+&spi1 {
     status = "okay";
-	oled: ssd1306@3c {
-		compatible = "solomon,ssd1306fb";
-		reg = <0x3c>;
-		width = <128>;
-		height = <64>;
-		segment-offset = <0>;
-		page-offset = <0>;
-		display-offset = <0>;
-		multiplex-ratio = <63>;
-		prechargep = <0x22>;
-		// vertical mirror
-		com-invdir;
-		// horizontal mirror
-		segment-remap;
-		// inversion-on;
-        label = "oled";
-	};
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-names = "default";
+    
+    gc9a01a: gc9a01a@0 {
+        compatible = "waveshare,gc9a01a";
+        reg = <0>;
+        spi-max-frequency = <15000000>;
+        spi-cpol = <0>;
+        spi-cpha = <0>;
+        dc-gpios = <&gpio0 16 GPIO_ACTIVE_HIGH>;
+        rst-gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;
+        status = "okay";
+    };
 };
-
-&kscan0 {
-	col-gpios
-		= <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 28 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		;
-};
-
