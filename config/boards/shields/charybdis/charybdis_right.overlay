@@ -5,7 +5,7 @@
  */
  
 #include "charybdis.dtsi"
-
+#include "../../../boards/arm/pinnacle_100/pinnacle_100.dts" 
 &default_transform {
     col-offset = <6>;
 };
