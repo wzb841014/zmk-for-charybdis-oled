@@ -1,2 +1,11 @@
-/* config/boards/arm/pinnacle_100/pinnacle_100.dts */
+/*
+ * Pinnacle 100 Board Device Tree
+ */
+
+/ {
+    chosen {
+        zephyr,display = &gc9a01a;
+    };
+};
+
 #include "pinnacle_100.dtsi"
